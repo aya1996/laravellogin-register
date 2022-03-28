@@ -102,7 +102,7 @@ class TaskController extends BaseController
 /**
      * search for task name
      *
-     * @param  str  $name
+     * @param  string  $name
      * @return \Illuminate\Http\Response
      */
     /// search for task name
