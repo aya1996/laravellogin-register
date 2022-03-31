@@ -65,7 +65,12 @@ class AuthController extends BaseController
    {
      auth()->user()->tokens()->delete();
      return[
-         'message'=>'user logged out'
+         'message'=>'user logged out' 
      ];
    }
+   public function forgetPassword(Request $request)
+   {
+       return response()->json(auth()->user());
+   }
+   
 }

@@ -67,7 +67,7 @@ class TaskController extends BaseController
         $task->update($request->all());
         return $task;
 
-
+         
         // using obeject task
         // $input = $request->all();
 
@@ -108,6 +108,7 @@ class TaskController extends BaseController
     /// search for task name
     public function search($name)
     {
+        
         return Task::where('name','like','%'.$name.'%')->get();
        
     }

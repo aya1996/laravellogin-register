@@ -4,6 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\taskController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\ForgotPasswordController;
+use App\Http\Controllers\API\CheckCodeController;
+use App\Http\Controllers\API\ResetPasswordController;
 use App\Http\Resources\Task;
 use PharIo\Manifest\Author;
 
@@ -25,7 +28,9 @@ Route::post('register', [AuthController::class, 'register']);
 Route::get('/tasks',[taskController::class, 'index']);
 Route::get('/task/{id}',[taskController::class, 'show']);
 Route::get('/task/search/{name}',[taskController::class, 'search']);
-
+Route::post('password/forget', [ForgotPasswordController::class,'forgotPassword'] );
+Route::post('password/checkcode', [CheckCodeController::class,'checkCode'] );
+Route::post('password/reset', [ResetPasswordController::class,'resetPassword'] );
 //protected routes
 Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::post('/task',[taskController::class, 'store']);
