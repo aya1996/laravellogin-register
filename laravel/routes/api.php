@@ -6,8 +6,11 @@ use App\Http\Controllers\API\taskController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\ForgotPasswordController;
 use App\Http\Controllers\API\CheckCodeController;
+use App\Http\Controllers\API\CustomerController;
+use App\Http\Controllers\API\productController;
 use App\Http\Controllers\API\ResetPasswordController;
-use App\Http\Resources\Task;
+use App\Http\Controllers\API\invoiceController; 
+
 use PharIo\Manifest\Author;
 
 /*
@@ -37,6 +40,29 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::post('/logout',[AuthController::class, 'logout']);
     Route::put('/task/{id}',[taskController::class, 'update']);
     Route::delete('/task/{id}',[taskController::class, 'destroy']);
+
+    /////customer routes////
+    Route::get('/customers',[CustomerController::class, 'index']);
+    Route::get('/customer/{id}',[CustomerController ::class, 'show']);
+    Route::post('/customer',[CustomerController::class, 'store']);
+    Route::put('/customer/{id}',[CustomerController::class, 'update']);
+    Route::delete('/customer/{id}',[CustomerController::class, 'destroy']);
+
+    //// products routes////
+    Route::get('/products',[productController::class, 'index']);
+    Route::get('/product/{id}',[productController::class, 'show']);
+    Route::post('/product',[productController::class, 'store']);
+    Route::put('/product/{id}',[productController::class, 'update']);
+    Route::delete('/product/{id}',[productController::class, 'destroy']);
+
+    //// invoice routes////
+    Route::get('/invoices',[invoiceController::class, 'index']);
+    Route::get('/invoice/{id}',[invoiceController::class, 'show']);
+    Route::post('/invoice',[invoiceController::class, 'store']);
+    Route::put('/invoice/{id}',[invoiceController::class, 'update']);
+    Route::delete('/invoice/{id}',[invoiceController::class, 'destroy']);
+    Route::get('/invoice/test/{id}',[invoiceController::class, 'test']);
+
 });
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
