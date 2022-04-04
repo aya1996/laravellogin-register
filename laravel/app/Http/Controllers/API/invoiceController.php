@@ -36,24 +36,44 @@ class invoiceController extends Controller
         ]);
         // return $request->all();
        $products = Product::whereIn('id', $attr['products'])->get();
+    //    return $products;
        $total = 0;
+       $discount = 0;
        foreach($products as $product){
               $total += $product->price;
+           
+              
        }
        $tax = ($total * $attr['tax']) / 100;
+       if($products->count() >= 5){
+          //  $discount += $product->price * $product->count() - $product->price;
+           $discount = ($total * 10) / 100;
+           $sub_total=$total -$discount + $tax;
+          
+       }
+       else{
+          $sub_total=$total + $tax;
+       }
+ 
+       
+       
+     
+       
     //    return $tax;
     //    return $total;
-    //    return $products
+    //    return $products;
+
         $invoice = invoice::create([
             'invoice_number'      => mt_rand(1111,9999999),//$attr['invoice_number'],
             'total_amount'        => $total,//$attr['total_amount'],
-            'sub_total'           => $total + $tax,//$attr['total_amount'],
             'tax'                 => $attr['tax'],
+            'discount'            => $discount,
+            'sub_total'           => $sub_total,//$attr['total_amount'],  
             'status'              => $attr['status'],
             'customer_id'         => $attr['customer_id'],
             // 'created_at'  => $attr['created_at'],
         ]);
-         $invoice->products()->attach($attr['products']);
+         $invoice->products()->with($attr['products']);
          return $invoice;
         //  $response = [
         //     'invoice'     => $invoice->only(['invoice_number','total_amount','sub_total','status','created_at']),
@@ -114,6 +134,11 @@ class invoiceController extends Controller
     }
     public function test($id){
         $invoice = invoice::with(['products'])->find($id);
+        return $invoice;
+    }
+    public function invoiceDetails($id){
+        $invoice = invoice::with(['products:id,name,price','customer:id,name,phone'])->find($id);
+
         return $invoice;
     }
 }

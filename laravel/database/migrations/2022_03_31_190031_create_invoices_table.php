@@ -19,6 +19,7 @@ return new class extends Migration
             $table-> integer('total_amount');
             $table->integer('tax');
             $table->integer('sub_total');
+            $table->integer('discount');
             $table->boolean('status');
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('customers');

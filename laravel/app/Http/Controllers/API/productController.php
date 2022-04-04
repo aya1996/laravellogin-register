@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\products;
+
 use Illuminate\Http\Request;
 use App\Http\Resources\products as productsResource;
+use App\Models\Product;
 
 class productController extends baseController
 {
@@ -16,7 +17,7 @@ class productController extends baseController
      */
     public function index()
     {
-        $products = products::all();
+        $products = Product::all();
         return $this->handleResponse($products, 'Products have been retrieved!');
     }
 
@@ -36,7 +37,7 @@ class productController extends baseController
            
            
         ]);
-        $user = products::create([
+        $user = Product::create([
             'name'      => $attr['name'],
             'description'     => $attr['description'],
             'price'  => $attr['price'],
@@ -59,7 +60,7 @@ class productController extends baseController
      */
     public function show($id)
     {
-        $product = products::find($id);
+        $product = Product::find($id);
         if (is_null($product)) {
             return $this->handleError('Product not found!');
         }
@@ -75,7 +76,7 @@ class productController extends baseController
      */
     public function update(Request $request, $id)
     {
-        $product = products::find($id);
+        $product = Product::find($id);
         if (is_null($product)) {
             return $this->handleError('Product not found!');
         }
@@ -87,7 +88,7 @@ class productController extends baseController
            
            
         ]);
-        $user = products::create([
+        $user = Product::create([
             'name'      => $attr['name'],
             'description'     => $attr['description'],
             'price'  => $attr['price'],
@@ -110,7 +111,7 @@ class productController extends baseController
      */
     public function destroy($id)
     {
-        $product = products::find($id);
+        $product = Product::find($id);
         if (is_null($product)) {
             return $this->handleError('Product not found!');
         }
