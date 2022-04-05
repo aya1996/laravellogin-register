@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\invoice;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Http\Controllers\API\baseController as BaseController;
 
-class invoiceController extends Controller
+class invoiceController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -70,6 +71,7 @@ class invoiceController extends Controller
             'discount'            => $discount,
             'sub_total'           => $sub_total,//$attr['total_amount'],  
             'status'              => $attr['status'],
+            'invoiceDate'         => date('Y-m-d'),
             'customer_id'         => $attr['customer_id'],
             // 'created_at'  => $attr['created_at'],
         ]);

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('sub_total');
             $table->integer('discount');
             $table->boolean('status');
+            $table->date('invoiceDate');
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->timestamps();

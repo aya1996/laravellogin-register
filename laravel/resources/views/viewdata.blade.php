@@ -142,7 +142,7 @@
 </head>
 <!--  -->
 <body class="antialiased">
-
+   @foreach ($data as $key => $value)
     <div class="container">
         <div class="col-md-12">
             <div class="invoice">
@@ -179,9 +179,9 @@
                     </div>
                     <div class="invoice-date">
                         <small>Invoice / July period</small>
-                        <div class="date text-inverse m-t-5">August 3,2012</div>
+                        <div class="date text-inverse m-t-5">{{ $data[$key]['invoice_date'] = date('d-m-Y', strtotime($value['invoice_date'])) }}</div>
                         <div class="invoice-detail">
-                            #0000123DSS<br>
+                        {{ $data[$key]['invoice_number'] = $value['invoice_number']}}<br>
                             Services Product
                         </div>
                     </div>
@@ -278,6 +278,7 @@
             </div>
         </div>
     </div>
+    @endforeach
 </body>
 
 </html>

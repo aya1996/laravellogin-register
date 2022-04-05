@@ -35,7 +35,7 @@ Route::post('password/forget', [ForgotPasswordController::class,'forgotPassword'
 Route::post('password/checkcode', [CheckCodeController::class,'checkCode'] );
 Route::post('password/reset', [ResetPasswordController::class,'resetPassword'] );
 //protected routes
-Route::group(['middleware'=>['auth:sanctum']],function(){
+// Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::post('/task',[taskController::class, 'store']);
     Route::post('/logout',[AuthController::class, 'logout']);
     Route::put('/task/{id}',[taskController::class, 'update']);
@@ -56,7 +56,7 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::delete('/product/{id}',[productController::class, 'destroy']);
 
     //// invoice routes////
-    Route::get('/invoices',[invoiceController::class, 'index']);
+    Route::get('/invoices',[invoiceController::class, 'index'])->name('api/invoices');
     Route::get('/invoice/{id}',[invoiceController::class, 'show']);
     Route::post('/invoice',[invoiceController::class, 'store']);
     Route::put('/invoice/{id}',[invoiceController::class, 'update']);
@@ -64,7 +64,7 @@ Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::get('/invoice/test/{id}',[invoiceController::class, 'test']);
      Route::get('/invoice/invoicedetails/{id}',[invoiceController::class, 'invoiceDetails']);
 
-});
+// });
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     // Route::resource('task', taskController::class);
