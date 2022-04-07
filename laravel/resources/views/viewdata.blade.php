@@ -67,10 +67,10 @@
         .invoice-price .invoice-price-left,
         .invoice-price .invoice-price-right {
             display: table-cell;
-            padding: 20px;
+            padding: 10px;
             font-size: 20px;
             font-weight: 600;
-            width: 75%;
+            width: 60%;
             position: relative;
             vertical-align: middle
         }
@@ -93,12 +93,12 @@
         }
 
         .invoice-price .invoice-price-right {
-            width: 25%;
+            width: 20%;
             background: #2d353c;
             color: #fff;
             font-size: 28px;
             text-align: right;
-            vertical-align: bottom;
+            vertical-align: middle;
             font-weight: 300
         }
 
@@ -141,8 +141,9 @@
     </style>
 </head>
 <!--  -->
+
 <body class="antialiased">
-   @foreach ($data as $key => $value)
+@foreach($data['data'] as $invoice)
     <div class="container">
         <div class="col-md-12">
             <div class="invoice">
@@ -152,7 +153,7 @@
                         <a href="javascript:;" class="btn btn-sm btn-white m-b-10 p-l-5"><i class="fa fa-file t-plus-1 text-danger fa-fw fa-lg"></i> Export as PDF</a>
                         <a href="javascript:;" onclick="window.print()" class="btn btn-sm btn-white m-b-10 p-l-5"><i class="fa fa-print t-plus-1 fa-fw fa-lg"></i> Print</a>
                     </span>
-                    Company Name, Inc
+                    {{ $invoice['customer']['name'] }}
                 </div>
                 <!-- end invoice-company -->
                 <!-- begin invoice-header -->
@@ -160,29 +161,27 @@
                     <div class="invoice-from">
                         <small>from</small>
                         <address class="m-t-5 m-b-5">
-                            <strong class="text-inverse">Twitter, Inc.</strong><br>
-                            Street Address<br>
-                            City, Zip Code<br>
-                            Phone: (123) 456-7890<br>
-                            Fax: (123) 456-7890
+                            <strong class="text-inverse"> {{ $invoice['customer']['name'] }}</strong><br>
+                           
+                           phone: {{ $invoice['customer']['phone'] }}<br>
+                          
                         </address>
                     </div>
                     <div class="invoice-to">
                         <small>to</small>
                         <address class="m-t-5 m-b-5">
                             <strong class="text-inverse">Company Name</strong><br>
-                            Street Address<br>
-                            City, Zip Code<br>
+                            
                             Phone: (123) 456-7890<br>
-                            Fax: (123) 456-7890
+                          
                         </address>
                     </div>
                     <div class="invoice-date">
                         <small>Invoice / July period</small>
-                        <div class="date text-inverse m-t-5">{{ $data[$key]['invoice_date'] = date('d-m-Y', strtotime($value['invoice_date'])) }}</div>
+                        <div class="date text-inverse m-t-5">{{ $invoice['invoice_number'] }}</div>
                         <div class="invoice-detail">
-                        {{ $data[$key]['invoice_number'] = $value['invoice_number']}}<br>
-                            Services Product
+                        {{ $invoice['invoiceDate'] }}<br>
+                           
                         </div>
                     </div>
                 </div>
@@ -190,44 +189,28 @@
                 <!-- begin invoice-content -->
                 <div class="invoice-content">
                     <!-- begin table-responsive -->
-                    <div class="table-responsive">
-                        <table class="table table-invoice">
+                    <div class="text center">
+                        <table class="table table-responsive-lg  table-bordered">
+                        <h4>PRODUCTS DESCRIPTION</h4>
                             <thead>
                                 <tr>
-                                    <th>TASK DESCRIPTION</th>
-                                    <th class="text-center" width="10%">RATE</th>
-                                    <th class="text-center" width="10%">HOURS</th>
-                                    <th class="text-right" width="20%">LINE TOTAL</th>
+                                    
+                                    <th class="text-right"   >Name</th>
+                                 
+                                    <th class="text-left" >Price</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <span class="text-inverse">Website design &amp; development</span><br>
-                                        <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id sagittis arcu.</small>
-                                    </td>
-                                    <td class="text-center">$50.00</td>
-                                    <td class="text-center">50</td>
-                                    <td class="text-right">$2,500.00</td>
+                            <tbody class="">
+                                @foreach($invoice['products'] as $item)
+                                <tr class="text-center p-4">
+
+                                    <td >{{ $item['name']}} </td>
+                                  
+                                 
+                                    <td >{{ $item['price'] }}</td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <span class="text-inverse">Branding</span><br>
-                                        <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id sagittis arcu.</small>
-                                    </td>
-                                    <td class="text-center">$50.00</td>
-                                    <td class="text-center">40</td>
-                                    <td class="text-right">$2,000.00</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="text-inverse">Redesign Service</span><br>
-                                        <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id sagittis arcu.</small>
-                                    </td>
-                                    <td class="text-center">$50.00</td>
-                                    <td class="text-center">50</td>
-                                    <td class="text-right">$2,500.00</td>
-                                </tr>
+                                @endforeach
+                                
                             </tbody>
                         </table>
                     </div>
@@ -237,21 +220,32 @@
                         <div class="invoice-price-left">
                             <div class="invoice-price-row">
                                 <div class="sub-price">
-                                    <small>SUBTOTAL</small>
-                                    <span class="text-inverse">$4,500.00</span>
+                                    <small>TOTAL</small>
+                                    <span class="text-inverse">{{ $invoice['total_amount'] }}</span>
                                 </div>
                                 <div class="sub-price">
                                     <i class="fa fa-plus text-muted"></i>
                                 </div>
                                 <div class="sub-price">
-                                    <small>PAYPAL FEE (5.4%)</small>
-                                    <span class="text-inverse">$108.00</span>
+                                    <small>Tax ({{ $invoice['tax'] }} %) </small>
+                                   
+                                    <span class="text-inverse">{{ $invoice['total_amount'] * $invoice['tax'] /100}}</span>
+                                </div>
+                                <div class="sub-price">
+                                    <i class="fa fa-plus text-muted"></i>
+                                </div>
+                                <div class="sub-price">
+                                    <small>DISCOUNT (10%)</small>
+                                    <span class="text-inverse">{{ $invoice['discount'] }}</span>
                                 </div>
                             </div>
+                           
+                            </div>
+                            <div class="invoice-price-right">
+                            <small>TOTAL</small> <span class="f-w-400">{{ $invoice['sub_total'] }}</span>
                         </div>
-                        <div class="invoice-price-right">
-                            <small>TOTAL</small> <span class="f-w-600">$4508.00</span>
                         </div>
+                        
                     </div>
                     <!-- end invoice-price -->
                 </div>

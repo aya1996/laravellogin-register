@@ -63,7 +63,7 @@ class invoiceController extends BaseController
     //    return $tax;
     //    return $total;
     //    return $products;
-
+    //    return $attr['products'];
         $invoice = invoice::create([
             'invoice_number'      => mt_rand(1111,9999999),//$attr['invoice_number'],
             'total_amount'        => $total,//$attr['total_amount'],
@@ -75,7 +75,8 @@ class invoiceController extends BaseController
             'customer_id'         => $attr['customer_id'],
             // 'created_at'  => $attr['created_at'],
         ]);
-         $invoice->products()->with($attr['products']);
+
+         $invoice->products()->attach($attr['products']);
          return $invoice;
         //  $response = [
         //     'invoice'     => $invoice->only(['invoice_number','total_amount','sub_total','status','created_at']),

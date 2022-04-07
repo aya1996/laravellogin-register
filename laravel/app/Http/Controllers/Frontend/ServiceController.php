@@ -20,7 +20,7 @@ class ServiceController extends BaseController
     {
         // $data = Http::get('api/invoices');
         $data = file_get_contents(public_path().'/json/invoices.json');
-        $data = json_decode($data, true);
+        // $data = json_decode($data, true);
         // foreach ($data as $key => $value) {
         //     $data[$key]['invoice_date'] = date('d-m-Y', strtotime($value['invoice_date']));
         //     $data[$key]['due_date'] = date('d-m-Y', strtotime($value['due_date']));
@@ -32,7 +32,8 @@ class ServiceController extends BaseController
         // dd($data);
         // // $invoices = $data->json();
         // return $data;
-        return view('viewdata', compact('data'));
+        return view('viewdata')->with('data', json_decode($data, true));
+        // return view('viewdata', compact('data'));
     }
 
     /**

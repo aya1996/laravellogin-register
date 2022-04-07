@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\ServiceController;
+use App\Http\Controllers\Frontend\StringController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +16,9 @@ use App\Http\Controllers\Frontend\ServiceController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 Route::get('/viewdata', [ServiceController::class, 'index']);
-// Route::get('/viewdata', function () {
+Route::get('/string', [StringController::class, 'index']);
+// Route::get('/', function () {
 //     return view('viewdata');
 // });
