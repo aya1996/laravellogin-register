@@ -14,4 +14,6 @@ class customer extends Model
     {
         return $this->hasMany(products::class);
     }
+
+    
 }

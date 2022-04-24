@@ -6,10 +6,13 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Http\Resources\products as productsResource;
+use App\Models\Comment;
 use App\Models\Product;
 
 class productController extends baseController
 {
+
+
     /**
      * Display a listing of the resource.
      *
@@ -33,9 +36,9 @@ class productController extends baseController
             'name' => 'required|string',
             'description'     => 'required|string|',
             'price'  => 'required|string|',
-        
-           
-           
+
+
+
         ]);
         $user = Product::create([
             'name'      => $attr['name'],
@@ -43,13 +46,57 @@ class productController extends baseController
             'price'  => $attr['price'],
 
         ]);
-       
+
         $response = [
-            'product'     => $user->only(['name','description','price']),
-           
+            'product'     => $user->only(['name', 'description', 'price']),
+
         ];
         return response($response, 201);
-             
+    }
+
+    public function createComment(Request $request)
+    {
+
+        $attr = $request->validate([
+            'body' => 'required|string',
+            'product_id'  => 'required|integer|exists:products,id',
+        ]);
+        $product = Product::find($attr['product_id']);
+        if (!$product) {
+            return response(['message' => 'Product not found'], 404);
+        }
+
+        $product->comments()->create([
+            'body'      => $attr['body'],
+            'user_id'     => auth()->user()->id,
+        ]);
+
+        return $product;
+        // $comment = Comment::create([
+        //     'commentable_type'  => 'App\Models\Product',
+        //     'commentable_id'    => $attr['product_id'],
+        //     'body'             => $attr['body'],
+        //     'user_id'          => auth()->user()->id,
+        // ]);
+        // return $comment;
+        // $comment = Comment::create([
+        //     'body'      => $attr['body'],
+        //     'user_id'     => $attr['user_id'],
+
+
+        // ]);
+        // $comment->product()->associate($attr['product_id']);
+        $response = [
+            // 'comment'     => $comment->only(['comment', 'user_id', 'product_id']),
+
+        ];
+        return response($response, 201);
+    }
+
+    public function getComments()
+    {
+        $comments = Product::with(['comments'])->get();
+        return $this->handleResponse($comments, 'Comments have been retrieved!');
     }
 
     /**
@@ -84,9 +131,9 @@ class productController extends baseController
             'name' => 'required|string',
             'description'     => 'required|string|',
             'price'  => 'required|string|',
-        
-           
-           
+
+
+
         ]);
         $user = Product::create([
             'name'      => $attr['name'],
@@ -94,13 +141,12 @@ class productController extends baseController
             'price'  => $attr['price'],
 
         ]);
-       
+
         $response = [
-            'product'     => $user->only(['name','description','price']),
-           
+            'product'     => $user->only(['name', 'description', 'price']),
+
         ];
         return response($response, 201);
-             
     }
 
     /**
